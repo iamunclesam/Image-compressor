@@ -1,0 +1,37 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900,700,500);
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Montserrat:wght@500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* html {
+  @apply font-Poppins scroll-smooth;
+} */
+
+body {
+  overflow-x: hidden;
+  font-family: 'Montserrat', sans-serif;
+}
+
+a{
+  text-decoration: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background: #F3BA2F;
+  transition: all 0.5s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #252525;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff84;
+} /**/
