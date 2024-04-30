@@ -20,7 +20,7 @@ const ImageUpload = ({
 
   return (
     <>
-      <div className="grid md:grid-cols-2 items-center mx-auto md:mt-16">
+      <div className="grid md:grid-cols-2 items-center mx-auto md:mt-16 p-3">
         {originalImage && (
           <div className="text-center mt-4">
             <h2 className="text-3xl text-gray-700 font-bold">Original Image</h2>
