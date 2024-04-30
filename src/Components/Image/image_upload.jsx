@@ -8,6 +8,16 @@ const ImageUpload = ({
   originalSize,
   compressedSize,
 }) => {
+
+    const downloadCompressedImage = () => {
+        const link = document.createElement('a');
+        link.href = compressedImage;
+        link.download = 'compressed_image.jpg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
   return (
     <>
       <div className="grid md:grid-cols-2 items-center mx-auto md:mt-16">
@@ -52,7 +62,7 @@ const ImageUpload = ({
                 <p>Size: {Math.round(compressedSize / 1024)} KB</p>
               </div>
             )}
-            <button className="bg-blue-600 text-sm my-2 px-4 py-2 text-white rounded-full">
+            <button onClick={downloadCompressedImage} className="bg-blue-600 text-sm my-2 px-4 py-2 text-white rounded-full">
               Download
             </button>
           </div>
