@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import Compressor from "compressorjs";
 import heroOne from "../../assets/img/heroOne.png";
+import ImageUpload from "./image_upload";
+
 
 function ImageCompressor() {
   const [originalImage, setOriginalImage] = useState(null);
@@ -130,56 +132,11 @@ function ImageCompressor() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 items-center mx-auto md:mt-16">
-          {originalImage && (
-            <div className="text-center">
-              <h2 className="text-3xl text-gray-700 font-bold">
-                Original Image
-              </h2>
-              <img
-                src={originalImage}
-                alt="Original"
-                className="w-64 my-2 shadow-lg rounded-xl mx-auto"
-              />
-              {originalDimensions && (
-                <div>
-                  <p>
-                    Dimensions: {originalDimensions.width} x{" "}
-                    {originalDimensions.height}
-                  </p>
-                  <p>Size: {Math.round(originalSize / 1024)} KB</p>
-                </div>
-              )}
-              <button className="bg-blue-600 text-sm px-4 py-2 my-2 text-white rounded-full">
-                Download
-              </button>
-            </div>
-          )}
-          {compressedImage && (
-            <div className=" text-center">
-              <h2 className="text-3xl text-gray-700 font-bold">
-                Compressed Image
-              </h2>
-              <img
-                src={compressedImage}
-                alt="Compressed"
-                className="w-64 my-2 shadow-lg rounded-xl mx-auto"
-              />
-              {compressedDimensions && (
-                <div>
-                  <p>
-                    Dimensions: {compressedDimensions.width} x{" "}
-                    {compressedDimensions.height}
-                  </p>
-                  <p>Size: {Math.round(compressedSize / 1024)} KB</p>
-                </div>
-              )}
-              <button className="bg-blue-600 text-sm my-2 px-4 py-2 text-white rounded-full">
-                Download
-              </button>
-            </div>
-          )}
+
+        <div className="">
+          <ImageUpload originalSize={originalSize} originalDimensions={originalDimensions} originalImage={originalImage} compressedDimensions={compressedDimensions} compressedImage={compressedImage} compressedSize={compressedSize} />
         </div>
+       
       </div>
     </div>
   );
