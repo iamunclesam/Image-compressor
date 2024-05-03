@@ -1,17 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
 import heroOne from "../../assets/img/heroOne.png";
-import ImageUpload from "./image_upload";
 
 
 function ImageCompressor() {
+
   const [originalImage, setOriginalImage] = useState(null);
   const [compressedImage, setCompressedImage] = useState(null);
-  const [originalSize, setOriginalSize] = useState(null);
-  const [originalDimensions, setOriginalDimensions] = useState(null);
-  const [compressedSize, setCompressedSize] = useState(null);
-  const [compressedDimensions, setCompressedDimensions] = useState(null);
+
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -20,33 +19,20 @@ function ImageCompressor() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setOriginalImage(URL.createObjectURL(file));
-    getOriginalImageInfo(file);
     compressImage(file);
   };
 
-  const getOriginalImageInfo = (file) => {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      const image = new Image();
-      image.src = event.target.result;
-      image.onload = function () {
-        setOriginalDimensions({
-          width: this.width,
-          height: this.height,
-        });
-      };
-    };
-    reader.readAsDataURL(file);
-    setOriginalSize(file.size);
-  };
-
   const compressImage = (file) => {
-    new Compressor(file, {
+   new Compressor(file, {
       quality: 0.6,
       success(result) {
         const compressedImageURL = URL.createObjectURL(result);
         setCompressedImage(compressedImageURL);
-        getCompressedImageInfo(result);
+        saveStateToLocalStorage({
+          originalImage: URL.createObjectURL(file), // Use file directly here
+          compressedImage: compressedImageURL,
+        });
+        navigate("/upload");
       },
       error(err) {
         console.error(err.message);
@@ -54,37 +40,20 @@ function ImageCompressor() {
     });
   };
 
-  const getCompressedImageInfo = (file) => {
-    setCompressedSize(file.size);
-    const image = new Image();
-    image.src = URL.createObjectURL(file);
-    image.onload = function () {
-      setCompressedDimensions({
-        width: this.width,
-        height: this.height,
-      });
-    };
+  const saveStateToLocalStorage = (imageState) => {
+    localStorage.setItem("imageState", JSON.stringify(imageState));
   };
+
+  useEffect(() => {
+    // Save state to local storage when state variables change
+    saveStateToLocalStorage({
+      originalImage,
+      compressedImage,
+    });
+  }, [originalImage, compressedImage]);
 
   return (
     <div>
-      {/* <h1>Image Compressor</h1>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-      <div>
-        {originalImage && (
-          <div>
-            <h2>Original Image</h2>
-            <img src={originalImage} alt="Original" />
-          </div>
-        )}
-        {compressedImage && (
-          <div>
-            <h2>Compressed Image</h2>
-            <img src={compressedImage} alt="Compressed" />
-          </div>
-        )}
-      </div> */}
-
       <div className="md:px-28 md:p-16 pt-0">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4  items-center">
           <div className="col hidden md:block shadow-xl rounded-xl order-2 md:order-1">
@@ -106,13 +75,18 @@ function ImageCompressor() {
           </div>
 
           <div className="col p-6 order-1 md:order-2">
-            <img src={heroOne} alt="" className="flex justify-center shadow-lg bg-gray-100 rounded-lg" />
+            <img
+              src={heroOne}
+              alt=""
+              className="flex justify-center shadow-lg bg-gray-100 rounded-lg"
+            />
 
             <h1 className="md:text-7xl text-5xl text-center md:text-right text-gray-700 font-extrabold pt-8 pb-4">
               Compress your Images
             </h1>
             <p className="text-gray-500 text-center md:text-right text-lg pb-4">
-              Fully automated and at no cost. 100% <mark className="px-4 py-1">free</mark>
+              Fully automated and at no cost. 100%{" "}
+              <mark className="px-4 py-1">free</mark>
             </p>
             <div className="flex md:hidden justify-center items-center ">
               <button
@@ -131,12 +105,6 @@ function ImageCompressor() {
             </div>
           </div>
         </div>
-
-
-        <div className="">
-          <ImageUpload originalSize={originalSize} originalDimensions={originalDimensions} originalImage={originalImage} compressedDimensions={compressedDimensions} compressedImage={compressedImage} compressedSize={compressedSize} />
-        </div>
-       
       </div>
     </div>
   );

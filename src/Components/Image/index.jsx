@@ -4,7 +4,6 @@ const imageIndex = () => {
         return (
             <>
                 <ImageCompressor />
-            
             </>
         )
 }
