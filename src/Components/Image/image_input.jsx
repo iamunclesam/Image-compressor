@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
 import heroOne from "../../assets/img/heroOne.png";
 
-
 function ImageCompressor() {
-
   const [originalImage, setOriginalImage] = useState(null);
   const [compressedImage, setCompressedImage] = useState(null);
+  const [originalDimensions, setOriginalDimensions] = useState(null);
+  const [compressedDimensions, setCompressedDimensions] = useState(null);
+  const [originalSize, setOriginalSize] = useState(null);
+  const [compressedSize, setCompressedSize] = useState(null);
 
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -19,20 +21,20 @@ function ImageCompressor() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setOriginalImage(URL.createObjectURL(file));
+    getOriginalImageInfo(file);
     compressImage(file);
   };
 
   const compressImage = (file) => {
-   new Compressor(file, {
-      quality: 0.6,
+    new Compressor(file, {
+      quality: 2.0,
       success(result) {
         const compressedImageURL = URL.createObjectURL(result);
         setCompressedImage(compressedImageURL);
-        saveStateToLocalStorage({
-          originalImage: URL.createObjectURL(file), // Use file directly here
-          compressedImage: compressedImageURL,
-        });
-        navigate("/upload");
+        getCompressedImageInfo(result);
+        setTimeout(() => {
+          navigate("/upload");
+        }, 2000);
       },
       error(err) {
         console.error(err.message);
@@ -40,17 +42,51 @@ function ImageCompressor() {
     });
   };
 
-  const saveStateToLocalStorage = (imageState) => {
-    localStorage.setItem("imageState", JSON.stringify(imageState));
+  const getOriginalImageInfo = (file) => {
+    const image = new Image();
+    image.src = URL.createObjectURL(file);
+    image.onload = function () {
+      setOriginalDimensions({
+        width: this.width,
+        height: this.height,
+      });
+      setOriginalSize(file.size);
+    };
+  };
+
+  const getCompressedImageInfo = (file) => {
+    const image = new Image();
+    image.src = URL.createObjectURL(file);
+    image.onload = function () {
+      setCompressedDimensions({
+        width: this.width,
+        height: this.height,
+      });
+      setCompressedSize(file.size);
+    };
   };
 
   useEffect(() => {
     // Save state to local storage when state variables change
-    saveStateToLocalStorage({
-      originalImage,
-      compressedImage,
-    });
-  }, [originalImage, compressedImage]);
+    localStorage.setItem(
+      "imageState",
+      JSON.stringify({
+        originalImage,
+        compressedImage,
+        originalDimensions,
+        compressedDimensions,
+        originalSize,
+        compressedSize,
+      })
+    );
+  }, [
+    originalImage,
+    compressedImage,
+    originalDimensions,
+    compressedDimensions,
+    originalSize,
+    compressedSize,
+  ]);
 
   return (
     <div>
