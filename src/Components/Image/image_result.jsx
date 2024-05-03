@@ -101,7 +101,7 @@ const ImageUpload = () => {
                 Compressed Image
               </h2>
 
-           <div className="md:w-96 md:h-96 object-cover flex justify-center items-center mx-auto">
+           <div className="md:w-96 h-96 object-cover flex justify-center items-center mx-auto">
            {showCountdown && <div className="countdown text-8xl text-gray-700 font-extrabold">{countdown}</div>}
               {showImage && (
                 <img
