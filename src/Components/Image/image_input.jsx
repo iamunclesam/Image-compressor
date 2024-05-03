@@ -27,7 +27,7 @@ function ImageCompressor() {
 
   const compressImage = (file) => {
     new Compressor(file, {
-      quality: 2.0,
+      quality: 0.1,
       success(result) {
         const compressedImageURL = URL.createObjectURL(result);
         setCompressedImage(compressedImageURL);
