@@ -43,6 +43,29 @@ const ImageUpload = () => {
     }
   }, [showImage]);
 
+  const openOriginalImageDownload = () => {
+    // Assuming imageDetails.originalImage is the URL of the original image
+    window.open(imageDetails.originalImage, "_blank");
+  };
+
+  const openCompressedImageDownload = () => {
+    // Assuming imageDetails.compressedImage is the URL of the compressed image
+    window.open(imageDetails.compressedImage, "_blank");
+  };
+
+  const handleOriginalImageDownload = () => {
+    const anchor = document.createElement("a");
+    anchor.href = imageDetails.originalImage;
+    anchor.download = "original_image.jpg"; // You can change the filename as needed
+    anchor.click();
+  };
+  
+  const handleCompressedImageDownload = () => {
+    const anchor = document.createElement("a");
+    anchor.href = imageDetails.compressedImage;
+    anchor.download = "compressed_image.jpg"; // You can change the filename as needed
+    anchor.click();
+  };
 
 
   return (
@@ -55,6 +78,7 @@ const ImageUpload = () => {
                 Original Image
               </h2>
               <img
+              onClick={openOriginalImageDownload}
                 src={imageDetails.originalImage}
                 alt="Original"
                 className="md:w-96  h-64 object-cover w-full my-2 shadow-lg rounded-xl mx-auto"
@@ -68,7 +92,7 @@ const ImageUpload = () => {
                   <p>Size: {Math.round(imageDetails.originalSize / 1024)} KB</p>
                 </div>
               )}
-              <button className="bg-blue-600 text-sm px-4 py-2 my-2 text-white rounded-full">
+              <button  onClick={handleOriginalImageDownload} className="bg-blue-600 text-sm px-4 py-2 my-2 text-white rounded-full">
                 Download
               </button>
             </div>
@@ -81,6 +105,7 @@ const ImageUpload = () => {
            {showCountdown && <div className="countdown text-8xl text-gray-700 font-extrabold">{countdown}</div>}
               {showImage && (
                 <img
+                onClick={openCompressedImageDownload}
                   src={imageDetails.compressedImage}
                   alt="Compressed"
                   className={`md:w-96 h-64 object-cover w-full my-2 shadow-lg rounded-xl mx-auto ${
@@ -99,7 +124,7 @@ const ImageUpload = () => {
                   <p>Size: {Math.round(imageDetails.compressedSize / 1024)} KB</p>
                 </div>
               )} 
-              <button className="bg-blue-600 text-sm my-2 px-4 py-2 text-white rounded-full">
+              <button  onClick={handleCompressedImageDownload} className="bg-blue-600 text-sm my-2 px-4 py-2 text-white rounded-full">
                 Download
               </button>
             </div>
