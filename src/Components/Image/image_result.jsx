@@ -57,7 +57,7 @@ const ImageUpload = () => {
               <img
                 src={imageDetails.originalImage}
                 alt="Original"
-                className="md:w-96 w-64 w-full my-2 shadow-lg rounded-xl mx-auto"
+                className="md:w-96  h-64 object-cover w-full my-2 shadow-lg rounded-xl mx-auto"
               />
               {imageDetails.originalDimensions && (
                 <div className="my-4">
@@ -77,13 +77,13 @@ const ImageUpload = () => {
                 Compressed Image
               </h2>
 
-           <div className="w-96 h-96 object-cover flex justify-center items-center mx-auto">
+           <div className="md:w-96 md:h-96 object-cover flex justify-center items-center mx-auto">
            {showCountdown && <div className="countdown text-8xl text-gray-700 font-extrabold">{countdown}</div>}
               {showImage && (
                 <img
                   src={imageDetails.compressedImage}
                   alt="Compressed"
-                  className={`md:w-96 w-64 w-full my-2 shadow-lg rounded-xl mx-auto ${
+                  className={`md:w-96 h-64 object-cover w-full my-2 shadow-lg rounded-xl mx-auto ${
                     showImage ? "fade-in" : ""
                   }`}
                 />
