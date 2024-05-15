@@ -77,7 +77,10 @@ const ImageUpload = () => {
               <h2 className="text-3xl text-gray-700 font-bold">
                 Original Image
               </h2>
-              <img
+
+       
+              <div className="md:w-96 h-96 object-cover flex justify-center items-center mx-auto">
+                 <img
               onClick={openOriginalImageDownload}
                 src={imageDetails.originalImage}
                 alt="Original"
@@ -95,6 +98,8 @@ const ImageUpload = () => {
               <button  onClick={handleOriginalImageDownload} className="bg-blue-600 text-sm px-4 py-2 my-2 text-white rounded-full">
                 Download
               </button>
+              </div>
+                
             </div>
             <div className="mt-4 text-center">
               <h2 className="text-3xl text-gray-700 font-bold">
