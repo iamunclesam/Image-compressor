@@ -79,7 +79,7 @@ const ImageUpload = () => {
               </h2>
 
        
-              <div className="md:w-96 h-96 object-cover flex justify-center items-center mx-auto">
+              <div className="md:w-96 h-96 object-cover flex flex-col justify-center items-center mx-auto">
                  <img
               onClick={openOriginalImageDownload}
                 src={imageDetails.originalImage}
